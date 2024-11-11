@@ -1,0 +1,46 @@
+Havenapp
+<br>
+<script>
+    function eenfunctie() {
+        let naam_boot = document.getElementById("naam_ingevoerd").value;
+        let naam_thuishaven = document.getElementById("thuishaven_ingevoerd").value;
+//        alert("Naam schip: " + naam_boot);
+        fetch("http://127.0.0.1:5000/schip_aanmaken/" + naam_boot + "/" + naam_thuishaven + "/12")
+        //http://127.0.0.1:5000/schip_aanmaken/joost/almere/12
+    }
+    function toon_alle_schepen() {
+        fetch("http://127.0.0.1:5000/toon_alle_schepen")
+        .then(r => r.json()) // r => = lambda expressie
+        .then(d => verwerkfunctie(d)) // d is het argument
+        .catch(error => console.error('Error:', error));
+    }
+    function verwerkfunctie(alleschepen) {
+        let scheepsnamenDiv = document.getElementById("scheepsnamen");
+        scheepsnamenDiv.innerHTML = "";
+        // for (let i = 0; i < alleschepen.length; i++) {
+        //     let naam_boot = alleschepen[i].Naam;
+        //     console.log("Naam: " + naam_boot);
+        //     document.getElementById("scheepsnamen").innerText = "Naam " + naam_boot;
+        // }
+        for (let i = 0; i < alleschepen.length; i++) {
+            let naam_boot = alleschepen[i].Naam;
+            let naam_thuishaven = alleschepen[i].Thuishaven;
+            let p = document.createElement("p");
+            p.innerText = "Naam: " + naam_boot + ", Thuishaven: " + naam_thuishaven;
+            scheepsnamenDiv.appendChild(p);
+        }
+        // for (let i = 0; i < alleschepen.length; i++) {
+        //     document.getElementById("uitkomst").innerHTML += alleschepen[i].Naam+"<br>";
+        // }
+    }
+</script>
+<input type="text" id = "naam_ingevoerd"> 
+<input type="text" id = "thuishaven_ingevoerd"> <button onclick="eenfunctie()">Klik hier</button>
+
+<hr>
+
+<button onclick="toon_alle_schepen()"></button>
+
+<hr>
+
+<div id = "scheepsnamen"> </div>
